@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareSlot – Book a doctor</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f7f7;--surface:#fff;--ink:#12292e;--mute:#5a7075;--line:#d6e3e4;--brand:#0b6e6e;--brand-ink:#fff;--soft:#dcf1ee;--warn:#fff3d6;--warn-ink:#7a5200;--bad:#b3261e;--badbg:#fde8e6;--ok:#146c43;--okbg:#dff5e8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a1c;--surface:#142629;--ink:#e6f2f2;--mute:#92aeb2;--line:#27413f;--brand:#4fc3bb;--brand-ink:#05211f;--soft:#173b3a;--warn:#3b2f10;--warn-ink:#f3d48a;--bad:#ff9a92;--badbg:#3b1b19;--ok:#7fdca8;--okbg:#14301f}}
+:root[data-theme="dark"]{--bg:#0d1a1c;--surface:#142629;--ink:#e6f2f2;--mute:#92aeb2;--line:#27413f;--brand:#4fc3bb;--brand-ink:#05211f;--soft:#173b3a;--warn:#3b2f10;--warn-ink:#f3d48a;--bad:#ff9a92;--badbg:#3b1b19;--ok:#7fdca8;--okbg:#14301f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{max-width:1080px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-style:normal;font-size:18px}
+nav{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:12px}
+nav button{border:0;background:none;padding:8px 16px;border-radius:9px;font-weight:600;color:var(--mute)}
+nav button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+nav .n{background:var(--brand);color:var(--brand-ink);border-radius:20px;padding:0 7px;font-size:12px;margin-left:4px}
+main{max-width:1080px;margin:auto;padding:24px 20px 64px}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15;letter-spacing:-.03em;margin:0 0 6px}
+h2{font-size:18px;margin:0 0 12px}
+.sub{color:var(--mute);margin:0 0 24px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;white-space:nowrap;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px}
+.doc{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;display:flex;gap:12px}
+.doc[aria-pressed="true"]{border-color:var(--brand);background:var(--soft)}
+.av{width:46px;height:46px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-weight:700;flex:none}
+.doc b{display:block}.doc small{color:var(--mute);display:block}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.day{flex:none;width:62px;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 0;text-align:center}
+.day small{display:block;color:var(--mute);font-size:12px}.day strong{font-size:20px}
+.day[aria-pressed="true"]{border-color:var(--brand);background:var(--brand);color:var(--brand-ink)}
+.day[aria-pressed="true"] small{color:inherit}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin-top:6px}
+.slot{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 0;font-weight:600}
+.slot[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.slot:disabled{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.err{color:var(--bad);font-size:13px;min-height:18px;margin:2px 0 0}
+.sum{position:sticky;top:calc(80px + env(safe-area-inset-top,0px))}
+.sum dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.sum dt{color:var(--mute)}.sum dd{margin:0;font-weight:600;text-align:right}
+.btn{width:100%;border:0;background:var(--brand);color:var(--brand-ink);padding:13px;border-radius:12px;font-weight:700;margin-top:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink);margin-top:8px}
+.appt{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center}
+@media(max-width:560px){.appt{grid-template-columns:64px 1fr}.appt .acts{grid-column:1/-1}}
+.tick{background:var(--soft);border-radius:12px;text-align:center;padding:8px 0}
+.tick small{display:block;color:var(--mute);font-size:12px}.tick strong{font-size:24px;line-height:1.1}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;margin-left:6px}
+.t-up{background:var(--okbg);color:var(--ok)}.t-past{background:var(--warn);color:var(--warn-ink)}.t-x{background:var(--badbg);color:var(--bad)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.sm{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px 12px;font-weight:600;font-size:14px}
+.sm.danger{color:var(--bad)}
+.empty{text-align:center;padding:40px 16px;color:var(--mute)}
+.empty .btn{width:auto;padding:11px 22px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo"><i>+</i>CareSlot</div>
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-book" aria-selected="true">Book</button>
+    <button role="tab" id="tab-mine" aria-selected="false">My appointments<span class="n" id="count">0</span></button>
+  </nav>
+</div></header>
+<main>
+<section id="book">
+  <h1 id="bookTitle">Book a doctor’s appointment</h1>
+  <p class="sub">Pick a doctor, choose a time, and confirm. No account needed.</p>
+  <div class="grid">
+    <div>
+      <div class="card"><h2>1. Choose a doctor</h2>
+        <div class="chips" id="specs" role="group" aria-label="Specialty"></div>
+        <div class="docs" id="docs"></div></div>
+      <div class="card"><h2>2. Pick a date and time</h2>
+        <div class="days" id="days" role="group" aria-label="Date"></div>
+        <p class="sub" id="slotHint" style="margin:12px 0 6px">Choose a doctor to see open times.</p>
+        <div class="slots" id="slots" role="group" aria-label="Time"></div></div>
+      <div class="card"><h2>3. Your details</h2>
+        <label for="name">Full name</label><input id="name" autocomplete="name">
+        <p class="err" id="e-name"></p>
+        <label for="phone">Mobile number</label><input id="phone" inputmode="tel" autocomplete="tel" placeholder="10-digit number">
+        <p class="err" id="e-phone"></p>
+        <label for="reason">Reason for visit</label>
+        <select id="reason"><option>General check-up</option><option>New symptoms</option><option>Follow-up visit</option><option>Test results review</option><option>Other</option></select>
+        <label for="notes">Notes for the doctor (optional)</label><textarea id="notes" rows="3"></textarea></div>
+    </div>
+    <aside class="card sum" aria-live="polite"><h2>Your appointment</h2>
+      <dl><dt>Doctor</dt><dd id="s-doc">–</dd><dt>Specialty</dt><dd id="s-spec">–</dd><dt>Date</dt><dd id="s-date">–</dd><dt>Time</dt><dd id="s-time">–</dd><dt>Fee</dt><dd id="s-fee">–</dd></dl>
+      <button class="btn" id="confirm" disabled>Confirm booking</button>
+      <button class="btn ghost hide" id="cancelEdit">Keep original time</button>
+    </aside>
+  </div>
+</section>
+<section id="mine" class="hide">
+  <h1>Your appointments</h1>
+  <p class="sub">Reschedule or cancel up to the day before your visit.</p>
+  <div class="chips" id="filters" role="group" aria-label="Filter" style="margin-bottom:16px"></div>
+  <div id="list"></div>
+</section>
+</main>
+<div id="toast" role="status"></div>
+<script>
+var DOCS=[
+{id:1,n:"Dr. Meera Iyer",s:"General physician",x:14,f:400},
+{id:2,n:"Dr. Arjun Nair",s:"Cardiology",x:18,f:900},
+{id:3,n:"Dr. Sana Rahman",s:"Pediatrics",x:9,f:600},
+{id:4,n:"Dr. Vikram Rao",s:"Orthopedics",x:21,f:800},
+{id:5,n:"Dr. Lakshmi Pillai",s:"Dermatology",x:11,f:700},
+{id:6,n:"Dr. Rohan Mehta",s:"General physician",x:6,f:350}];
+var TIMES=[];for(var h=9;h<18;h++){if(h==13)continue;TIMES.push(h+":00");TIMES.push(h+":30");}
+var S={spec:"All",doc:null,date:null,time:null,edit:null,filter:"Upcoming"};
+var appts=[];
+try{appts=JSON.parse(localStorage.getItem("careslot")||"[]")||[];}catch(e){appts=[];}
+if(!appts.length){var d0=new Date();d0.setDate(d0.getDate()+3);if(d0.getDay()==0)d0.setDate(d0.getDate()+1);
+appts=[{id:"A100",doc:2,date:key(d0),time:"10:30",name:"Sample patient",phone:"9876543210",reason:"Follow-up visit",notes:"",status:"booked"}];}
+function save(){try{localStorage.setItem("careslot",JSON.stringify(appts));}catch(e){}}
+function $(i){return document.getElementById(i);}
+function key(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function parse(k){var p=k.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function fmtDate(k){return parse(k).toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});}
+function fmtTime(t){var p=t.split(":"),h=+p[0];return (h%12||12)+":"+p[1]+" "+(h<12?"AM":"PM");}
+function doc(id){return DOCS.filter(function(d){return d.id==id;})[0];}
+function hash(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h);}
+function dates(){var out=[],d=new Date();while(out.length<10){if(d.getDay()!=0)out.push(key(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1);}return out;}
+function taken(did,dk,t){if(hash(did+dk+t)%4==0)return true;
+ return appts.some(function(a){return a.doc==did&&a.date==dk&&a.time==t&&a.status=="booked"&&a.id!=S.edit;});}
+function pastTime(dk,t){var n=new Date(),p=t.split(":"),d=parse(dk);d.setHours(+p[0],+p[1]);return d<n;}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove("on");},2600);}
+
+function drawSpecs(){var sp=["All"];DOCS.forEach(function(d){if(sp.indexOf(d.s)<0)sp.push(d.s);});
+ $("specs").innerHTML=sp.map(function(s){return '<button class="chip" aria-pressed="'+(S.spec==s)+'" data-s="'+s+'">'+s+'</button>';}).join("");}
+function drawDocs(){var l=DOCS.filter(function(d){return S.spec=="All"||d.s==S.spec;});
+ $("docs").innerHTML=l.map(function(d){var ini=d.n.replace("Dr. ","").split(" ").map(function(w){return w[0];}).join("");
+ return '<button class="doc" aria-pressed="'+(S.doc==d.id)+'" data-d="'+d.id+'"><span class="av">'+ini+'</span><span><b>'+d.n+'</b><small>'+d.s+'</small><small>'+d.x+' years · ₹'+d.f+'</small></span></button>';}).join("");}
+function drawDays(){$("days").innerHTML=dates().map(function(k){var d=parse(k);
+ return '<button class="day" aria-pressed="'+(S.date==k)+'" data-k="'+k+'"><small>'+d.toLocaleDateString("en-IN",{weekday:"short"})+'</small><strong>'+d.getDate()+'</strong><small>'+d.toLocaleDateString("en-IN",{month:"short"})+'</small></button>';}).join("");}
+function drawSlots(){var el=$("slots");
+ if(!S.doc||!S.date){$("slotHint").textContent=!S.doc?"Choose a doctor to see open times.":"Choose a date to see open times.";el.innerHTML="";return;}
+ $("slotHint").textContent="Open times for "+doc(S.doc).n+" on "+fmtDate(S.date)+". Crossed-out times are taken.";
+ el.innerHTML=TIMES.map(function(t){var off=taken(S.doc,S.date,t)||pastTime(S.date,t);
+ return '<button class="slot" '+(off?"disabled ":"")+'aria-pressed="'+(S.time==t)+'" data-t="'+t+'">'+fmtTime(t)+'</button>';}).join("");}
+function drawSum(){var d=S.doc?doc(S.doc):null;
+ $("s-doc").textContent=d?d.n:"–";$("s-spec").textContent=d?d.s:"–";$("s-date").textContent=S.date?fmtDate(S.date):"–";
+ $("s-time").textContent=S.time?fmtTime(S.time):"–";$("s-fee").textContent=d?"₹"+d.f:"–";
+ $("confirm").disabled=!(d&&S.date&&S.time);$("confirm").textContent=S.edit?"Save new time":"Confirm booking";
+ $("cancelEdit").classList.toggle("hide",!S.edit);
+ $("bookTitle").textContent=S.edit?"Reschedule your appointment":"Book a doctor’s appointment";}
+function drawBook(){drawSpecs();drawDocs();drawDays();drawSlots();drawSum();}
+
+function status(a){if(a.status=="cancelled")return "Cancelled";return pastTime(a.date,a.time)?"Completed":"Upcoming";}
+function drawMine(){var up=appts.filter(function(a){return status(a)=="Upcoming";}).length;$("count").textContent=up;
+ var f=["Upcoming","Completed","Cancelled","All"];
+ $("filters").innerHTML=f.map(function(x){return '<button class="chip" aria-pressed="'+(S.filter==x)+'" data-f="'+x+'">'+x+'</button>';}).join("");
+ var l=appts.filter(function(a){return S.filter=="All"||status(a)==S.filter;}).sort(function(a,b){return (a.date+a.time)<(b.date+b.time)?-1:1;});
+ if(!l.length){$("list").innerHTML='<div class="card empty"><p>No '+(S.filter=="All"?"":S.filter.toLowerCase()+" ")+'appointments yet.</p><button class="btn" data-go="book">Book an appointment</button></div>';return;}
+ $("list").innerHTML=l.map(function(a){var d=doc(a.doc),s=status(a),dt=parse(a.date),cls=s=="Upcoming"?"t-up":s=="Cancelled"?"t-x":"t-past";
+ var acts=s=="Upcoming"?'<div class="acts"><button class="sm" data-re="'+a.id+'">Reschedule</button><button class="sm danger" data-x="'+a.id+'">Cancel</button></div>':"";
+ return '<article class="card appt"><div class="tick"><small>'+dt.toLocaleDateString("en-IN",{month:"short"})+'</small><strong>'+dt.getDate()+'</strong><small>'+dt.toLocaleDateString("en-IN",{weekday:"short"})+'</small></div>'+
+ '<div><b>'+d.n+'</b><span class="tag '+cls+'">'+s+'</span><div style="color:var(--mute)">'+d.s+' · '+fmtTime(a.time)+'</div><div style="color:var(--mute);font-size:14px">'+esc(a.reason)+' · '+esc(a.name)+' · Ref '+a.id+'</div></div>'+acts+'</article>';}).join("");}
+
+function show(w){var b=w=="book";$("book").classList.toggle("hide",!b);$("mine").classList.toggle("hide",b);
+ $("tab-book").setAttribute("aria-selected",b);$("tab-mine").setAttribute("aria-selected",!b);if(b)drawBook();else drawMine();window.scrollTo(0,0);}
+function reset(){S.doc=null;S.date=null;S.time=null;S.edit=null;S.spec="All";["name","phone","notes"].forEach(function(i){$(i).value="";});}
+
+$("tab-book").onclick=function(){show("book");};
+$("tab-mine").onclick=function(){show("mine");};
+$("specs").onclick=function(e){var s=e.target.dataset.s;if(s){S.spec=s;drawSpecs();drawDocs();}};
+$("docs").onclick=function(e){var b=e.target.closest("[data-d]");if(!b)return;S.doc=+b.dataset.d;S.time=null;drawDocs();drawSlots();drawSum();};
+$("days").onclick=function(e){var b=e.target.closest("[data-k]");if(!b)return;S.date=b.dataset.k;S.time=null;drawDays();drawSlots();drawSum();};
+$("slots").onclick=function(e){var b=e.target.closest("[data-t]");if(!b||b.disabled)return;S.time=b.dataset.t;drawSlots();drawSum();};
+$("filters").onclick=function(e){if(e.target.dataset.f){S.filter=e.target.dataset.f;drawMine();}};
+$("list").onclick=function(e){var t=e.target;
+ if(t.dataset.go){show("book");return;}
+ if(t.dataset.x){if(confirm("Cancel this appointment?")){appts.forEach(function(a){if(a.id==t.dataset.x)a.status="cancelled";});save();drawMine();toast("Appointment cancelled");}}
+ if(t.dataset.re){var a=appts.filter(function(x){return x.id==t.dataset.re;})[0];
+  S.edit=a.id;S.doc=a.doc;S.date=a.date;S.time=null;S.spec="All";$("name").value=a.name;$("phone").value=a.phone;$("reason").value=a.reason;$("notes").value=a.notes;show("book");}};
+$("cancelEdit").onclick=function(){reset();show("mine");};
+$("confirm").onclick=function(){
+ var n=$("name").value.trim(),p=$("phone").value.replace(/\D/g,""),ok=true;
+ $("e-name").textContent=n.length<2?"Enter your full name.":"";
+ $("e-phone").textContent=p.length!=10?"Enter a 10-digit mobile number.":"";
+ if(n.length<2||p.length!=10){(n.length<2?$("name"):$("phone")).focus();return;}
+ var rec={doc:S.doc,date:S.date,time:S.time,name:n,phone:p,reason:$("reason").value,notes:$("notes").value.trim(),status:"booked"};
+ if(S.edit){appts.forEach(function(a){if(a.id==S.edit){Object.assign(a,rec);}});toast("Appointment rescheduled");}
+ else{rec.id="A"+(100+appts.length+1+hash(n)%900);appts.push(rec);toast("Booked with "+doc(rec.doc).n+" on "+fmtDate(rec.date));}
+ save();reset();S.filter="Upcoming";show("mine");};
+show("book");drawMine();
+</script>
+</body>
+</html>
